@@ -1,12 +1,11 @@
 import 'package:bloc_master_app/features/home/bloc/home_bloc.dart';
 import 'package:bloc_master_app/features/home/models/home_product_data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductTileWidget extends StatelessWidget {
   final ProductDataModel productDataModel;
   final HomeBloc homeBloc;
-  ProductTileWidget({
+  const ProductTileWidget({
     super.key,
     required this.productDataModel,
     required this.homeBloc,
@@ -48,7 +47,6 @@ class ProductTileWidget extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
                   Text(
                     '\$${productDataModel.price.toStringAsFixed(2)}',
@@ -58,8 +56,11 @@ class ProductTileWidget extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          // Handle wishlist button click
-                          homeBloc.add(HomeProductWishlistButtonClickedEvent(clickedProduct: productDataModel));
+                          homeBloc.add(
+                            HomeProductWishlistButtonClickedEvent(
+                              clickedProduct: productDataModel,
+                            ),
+                          );
                           debugPrint(
                             'Wishlist button clicked for ${productDataModel.name}',
                           );
@@ -69,12 +70,16 @@ class ProductTileWidget extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           // Handle cart button click
-                          homeBloc.add(HomeProductCartButtonClickedEvent(clickedProduct: productDataModel));
+                          homeBloc.add(
+                            HomeProductCartButtonClickedEvent(
+                              clickedProduct: productDataModel,
+                            ),
+                          );
                           debugPrint(
                             'Cart button clicked for ${productDataModel.name}',
                           );
                         },
-                        icon: Icon(Icons.add_shopping_cart),
+                        icon: Icon(Icons.trolley),
                       ),
                     ],
                   ),

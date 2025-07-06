@@ -25,7 +25,7 @@ class HomeProductItemWishlistedActionState extends HomeActionState {
   // HomeProductItemWishlistedActionState({required this.productDataModel});
 }
 
-class HomeProductItemCartAddedActionState extends HomeActionState {
+class HomeProductItemCartAddedState extends HomeActionState {
   // final ProductDataModel productDataModel;
   // HomeProductItemCartAddedActionState({required this.productDataModel});
 }

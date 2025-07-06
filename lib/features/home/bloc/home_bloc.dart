@@ -25,23 +25,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeInitialEvent event,
     Emitter<HomeState> emit,
   ) async {
-    emit(HomeLoadingState());
-    await Future.delayed(const Duration(seconds: 3));
-    emit(
-      HomeLoadedSuccessSate(
-        products: GroceryData.groceryProducts
-            .map(
-              (e) => ProductDataModel(
-                id: e['id'] as String,
-                name: e['name'] as String,
-                description: e['description'] as String,
-                price: (e['price'] as num).toDouble(),
-                impageUrl: e['imageUrl'] as String,
-              ),
-            )
-            .toList(),
-      ),
-    );
+    try {
+      emit(HomeLoadingState());
+      await Future.delayed(const Duration(seconds: 3));
+      emit(
+        HomeLoadedSuccessSate(
+          products: GroceryData.groceryProducts
+              .map(
+                (e) => ProductDataModel(
+                  id: e['id'] as String,
+                  name: e['name'] as String,
+                  description: e['description'] as String,
+                  price: (e['price'] as num).toDouble(),
+                  impageUrl: e['imageUrl'] as String,
+                ),
+              )
+              .toList(),
+        ),
+      );
+    } catch (e) {
+      debugPrint('here is the issue $e');
+    }
   }
 
   FutureOr<void> homeProductWishlistButtonClickedEvent(
@@ -58,7 +62,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     cartItems.add(event.clickedProduct);
-    emit(HomeProductItemCartAddedActionState());
+    emit(HomeProductItemCartAddedState());
     debugPrint('Cart Print');
   }
 

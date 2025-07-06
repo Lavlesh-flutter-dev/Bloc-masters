@@ -17,6 +17,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    // debugPrint('home initialized');
     homeBloc.add(HomeInitialEvent());
     super.initState();
   }
@@ -25,9 +26,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homeBloc,
-      listenWhen: (previous, current) => current is HomeActionState,
-      buildWhen: (previous, current) => current is! HomeActionState,
+      listenWhen: (previous, current) {
+        debugPrint('listen when is called');
+        return current is HomeActionState;
+      },
+      buildWhen: (previous, current) {
+        debugPrint('build when is called');
+        return current is! HomeActionState;
+      },
       listener: (context, state) {
+        debugPrint('listener is called');
         if (state is HomeNavigateToCartPageActionState) {
           Navigator.push(
             context,
@@ -38,7 +46,7 @@ class _HomeState extends State<Home> {
             context,
             MaterialPageRoute(builder: (context) => Wishlist()),
           );
-        } else if (state is HomeProductItemCartAddedActionState) {
+        } else if (state is HomeProductItemCartAddedState) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('Cart Item Added')));
@@ -50,10 +58,13 @@ class _HomeState extends State<Home> {
       },
       builder: (context, state) {
         switch (state.runtimeType) {
-          case HomeLoadingState:
+          case const (HomeInitial):
+            return Scaffold(body: Center(child: Text('Initialising...')));
+          case const (HomeLoadingState):
+            debugPrint('home is loading');
             return Scaffold(body: Center(child: CircularProgressIndicator()));
-
-          case HomeLoadedSuccessSate:
+          case const (HomeLoadedSuccessSate):
+            debugPrint('home is success');
             final successState = state as HomeLoadedSuccessSate;
             return Scaffold(
               appBar: AppBar(
@@ -73,21 +84,22 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              body: ListView.builder(
-                itemCount: successState.products.length,
-
-                itemBuilder: (context, index) {
-                  return ProductTileWidget(
-                    productDataModel: successState.products[index],
-                    homeBloc: homeBloc,
-                  );
-                },
+              body: SafeArea(
+                child: ListView.builder(
+                  itemCount: successState.products.length,
+                  itemBuilder: (context, index) {
+                    return ProductTileWidget(
+                      productDataModel: successState.products[index],
+                      homeBloc: homeBloc,
+                    );
+                  },
+                ),
               ),
             );
-          case HomeErrorSate:
+          case const (HomeErrorSate):
             return Scaffold(body: Center(child: Text('Error loading data')));
           default:
-            return SizedBox();
+            return Scaffold(body: Center(child: Text("Unknown state")));
         }
       },
     );
