@@ -17,7 +17,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // debugPrint('home initialized');
     homeBloc.add(HomeInitialEvent());
     super.initState();
   }
@@ -35,7 +34,6 @@ class _HomeState extends State<Home> {
         return current is! HomeActionState;
       },
       listener: (context, state) {
-        debugPrint('listener is called');
         if (state is HomeNavigateToCartPageActionState) {
           Navigator.push(
             context,

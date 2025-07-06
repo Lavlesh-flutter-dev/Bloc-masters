@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:bloc_master_app/data/wishlist_items.dart';
 import 'package:bloc_master_app/features/home/models/home_product_data.dart';
-import 'package:bloc_master_app/features/wishlist/ui/wishlist.dart';
 import 'package:meta/meta.dart';
-
 part 'wishlist_event.dart';
 part 'wishlist_state.dart';
 
