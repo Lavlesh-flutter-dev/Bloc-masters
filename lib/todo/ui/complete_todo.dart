@@ -1,18 +1,26 @@
+import 'package:bloc_master_app/todo/model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../todo/bloc/todo_bloc.dart';
 
-class CompleteTodoPage extends StatefulWidget {
-  const CompleteTodoPage({super.key});
+class CompletedTodosScreen extends StatelessWidget {
+  const CompletedTodosScreen({super.key});
 
-  @override
-  State<CompleteTodoPage> createState() => _CompleteTodoPageState();
-}
-
-class _CompleteTodoPageState extends State<CompleteTodoPage> {
   @override
   Widget build(BuildContext context) {
+    final completed = context.read<TodoBloc>().completedTodos;
+
     return Scaffold(
-      appBar: AppBar(title: Text('Complete Todo')),
-      body: Column(children: []),
+      appBar: AppBar(title: const Text('Completed Tasks')),
+      body: ListView.builder(
+        itemCount: completed.length,
+        itemBuilder: (context, index) {
+          final TodoModel todo = completed[index];
+          return ListTile(
+            title: Text(todo.title),
+          );
+        },
+      ),
     );
   }
 }
