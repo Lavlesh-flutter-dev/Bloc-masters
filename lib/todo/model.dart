@@ -1,6 +1,6 @@
 class TodoModel {
   final String title;
-  bool isCompleted;
+  final bool completed ;
 
-  TodoModel({required this.title, this.isCompleted = false});
+  TodoModel({required this.title, this.completed = true});
 }
